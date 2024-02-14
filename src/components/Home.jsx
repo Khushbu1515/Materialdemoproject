@@ -3,8 +3,7 @@ import { styles } from "../styles/styles";
 import React, { useState } from "react";
 import Header from "../layout/Header";
 import Footer from "../layout/Footer";
-//import Slider from '../layout/Slider';
-//import Profile from "../layout/Profile";
+
 const useStyles = makeStyles(styles);
 const Home = () => {
   const classes = useStyles();

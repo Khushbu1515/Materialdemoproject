@@ -27,7 +27,7 @@ const Header = ({ isOpened, setIsOpened, classes }) => {
         </Typography>
       </Toolbar>
       <Profile />
-      {isOpened && <Slider isOpened={isOpened} setIsOpened={setIsOpened} />}
+      {isOpened && <Slider isOpened={isOpened} setIsOpened={setIsOpened} classes={classes} />}
     </AppBar>
   );
 };

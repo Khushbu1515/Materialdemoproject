@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,6 +11,9 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { Registers } from "../redux/Action";
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -37,9 +40,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Signup=()=> {
+const Signup = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const [formData, setformData] = useState({
+    email: "",
+    password: "",
+  });
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
+    dispatch(
+      Registers({
+        email: formData.email,
+        password: formData.password,
+      })
+    )
+      .unwrap()
+      .then((response) => {
+        setformData({ email: "", password: "" });
+        toast.success(response?.message);
+       
+      })
+      .catch((err) => toast.error(err));
+  };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setformData((prevData) => ({ ...prevData, [name]: value }));
+  };
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -52,35 +80,14 @@ const Signup=()=> {
         </Typography>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
-              />
-            </Grid>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 id="email"
+                value={formData.email}
+                onChange={handleChange}
                 label="Email Address"
                 name="email"
                 autoComplete="email"
@@ -92,8 +99,10 @@ const Signup=()=> {
                 required
                 fullWidth
                 name="password"
+                value={formData.password}
+                onChange={handleChange}
                 label="Password"
-                type="password"
+                type="text"
                 id="password"
                 autoComplete="current-password"
               />
@@ -111,6 +120,7 @@ const Signup=()=> {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleSubmit}
           >
             Sign Up
           </Button>
@@ -125,5 +135,5 @@ const Signup=()=> {
       </div>
     </Container>
   );
-}
+};
 export default Signup;

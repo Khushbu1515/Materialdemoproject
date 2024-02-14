@@ -1,25 +1,25 @@
 // Slider.js
-import React from 'react';
-import { Drawer, List, ListItem, ListItemText } from '@material-ui/core';
+import React from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import { Drawer, List, ListItem, ListItemText,IconButton} from "@material-ui/core";
 
-const Slider = ({ isOpened, setIsOpened }) => {
+const Slider = ({ isOpened, setIsOpened ,classes}) => {
   const handleDrawerClose = () => {
     setIsOpened(!isOpened);
   };
 
   return (
-    <Drawer variant="permanent" open={isOpened}>
+    <Drawer variant="permanent" open={isOpened}  >
       <List>
-        <ListItem button onClick={handleDrawerClose}>
-          <ListItemText primary="Close Slider" />
-        </ListItem>
+        <IconButton onClick={handleDrawerClose}>
+          <CloseIcon />
+        </IconButton>
         <ListItem button>
           <ListItemText primary=" Item 1" />
         </ListItem>
         <ListItem button>
           <ListItemText primary=" Item 2" />
         </ListItem>
-        
       </List>
     </Drawer>
   );

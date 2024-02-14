@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {Registers,logins} from "./action"
+import {Registers,logins} from "./Action"
 
 const initialState = {
     register:{},

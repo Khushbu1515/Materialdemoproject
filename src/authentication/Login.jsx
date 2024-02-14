@@ -1,60 +1,139 @@
-import React from 'react';
-import {
-  Checkbox,
-  Grid,
-  TextField,
-  FormControlLabel,
-  Paper,
-  Button,Typography
-} from '@material-ui/core';
-import {  useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Grid from "@material-ui/core/Grid";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logins } from "../redux/Action";
+const useStyles = makeStyles((theme) => ({
+  "@global": {
+    body: {
+      backgroundColor: theme.palette.common.white,
+    },
+  },
+  paper: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
+
 const Login = () => {
-  const [checked, setChecked] = React.useState(true);
-  const navigate=useNavigate()
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
+  const classes = useStyles();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [formDatas, setformDatas] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    dispatch(
+      logins({
+        email: formDatas.email,
+        password: formDatas.password,
+      })
+    )
+      .unwrap()
+      .then((response) => {
+        toast.success(response.message);
+        navigate("/");
+      })
+      .catch((err) => toast.error(err));
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setformDatas((prevData) => ({ ...prevData, [name]: value }));
   };
 
   return (
-    <div style={{ padding: 30 }}>
-      <Paper>
-        <Grid
-          container
-          spacing={3}
-          direction={'column'}
-         
-          alignItems={'center'}
-        >
-          <Grid item xs={12}>
-            <TextField label="Username"></TextField>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          LOGIN
+        </Typography>
+        <form className={classes.form} noValidate>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="email"
+                value={formDatas.email}
+                onChange={handleChange}
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                value={formDatas.password}
+                onChange={handleChange}
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControlLabel
+                control={<Checkbox value="allowExtraEmails" color="primary" />}
+                label="I want to receive inspiration, marketing promotions and updates via email."
+              />
+            </Grid>
           </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={handleSubmit}
+          >
+            Login
+          </Button>
           <Grid item xs={12}>
-            <TextField label="Password" type={'password'}></TextField>
+            <Typography variant="subtitle1" align="center">
+              Don't have an account? <a href="/signup">Sign up</a>
+            </Typography>
           </Grid>
-          <Grid item xs={12}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={checked}
-                  onChange={handleChange}
-                  label={'Keep me logged in'}
-                  inputProps={{ 'aria-label': 'primary checkbox' }}
-                />
-              }
-              label="Keep me logged in"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button  color="default" onClick={()=>navigate("/")}> Login </Button>
-          </Grid>
-          <Grid item xs={12}>
-          <Typography variant="subtitle1" align="center">
-            Don't have an account? <a href="/signup">Sign up</a>
-          </Typography>
-        </Grid>
-        </Grid>
-      </Paper>
-    </div>
+        </form>
+      </div>
+    </Container>
   );
 };
 
