@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { changepass } from "../service";
+import { changepass } from "../../service";
 import { Container, TextField, Button, IconButton } from "@material-ui/core";
 import VisibilityIcon from "@material-ui/icons/Visibility";
-import Header from "../layout/Header";
-
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 
 const Changepass = () => {
@@ -37,9 +35,7 @@ const Changepass = () => {
   };
 
   return (
-
     <Container style={styles.container}>
-     <Header/>
       <form onSubmit={handleSubmit} style={styles.form}>
         <TextField
           style={styles.input}
@@ -93,6 +89,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    padding:"112px"
   },
   form: {
     width: "50%",

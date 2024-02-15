@@ -5,15 +5,16 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { logins } from "../redux/Action";
+import { toast } from "react-toastify";
+import { Registers } from "../../redux/Action";
+
 const useStyles = makeStyles((theme) => ({
   "@global": {
     body: {
@@ -39,37 +40,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = () => {
+const Signup = () => {
   const classes = useStyles();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [formDatas, setformDatas] = useState({
+  const [formData, setformData] = useState({
     email: "",
     password: "",
   });
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
     dispatch(
-      logins({
-        email: formDatas.email,
-        password: formDatas.password,
+      Registers({
+        email: formData.email,
+        password: formData.password,
       })
     )
       .unwrap()
       .then((response) => {
-        toast.success(response.message);
-        navigate("/");
+        setformData({ email: "", password: "" });
+        toast.success(response?.message);
+       
       })
       .catch((err) => toast.error(err));
   };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setformDatas((prevData) => ({ ...prevData, [name]: value }));
+    setformData((prevData) => ({ ...prevData, [name]: value }));
   };
-
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -78,7 +76,7 @@ const Login = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          LOGIN
+          Sign up
         </Typography>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
@@ -88,7 +86,7 @@ const Login = () => {
                 required
                 fullWidth
                 id="email"
-                value={formDatas.email}
+                value={formData.email}
                 onChange={handleChange}
                 label="Email Address"
                 name="email"
@@ -101,10 +99,10 @@ const Login = () => {
                 required
                 fullWidth
                 name="password"
-                label="Password"
-                value={formDatas.password}
+                value={formData.password}
                 onChange={handleChange}
-                type="password"
+                label="Password"
+                type="text"
                 id="password"
                 autoComplete="current-password"
               />
@@ -124,17 +122,18 @@ const Login = () => {
             className={classes.submit}
             onClick={handleSubmit}
           >
-            Login
+            Sign Up
           </Button>
-          <Grid item xs={12}>
-            <Typography variant="subtitle1" align="center">
-              Don't have an account? <a href="/signup">Sign up</a>
-            </Typography>
+          <Grid container justify="flex-end">
+            <Grid item>
+              <Link href="/login" variant="body2">
+                Already have an account? Sign in
+              </Link>
+            </Grid>
           </Grid>
         </form>
       </div>
     </Container>
   );
 };
-
-export default Login;
+export default Signup;

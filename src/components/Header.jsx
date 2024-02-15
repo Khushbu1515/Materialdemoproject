@@ -1,9 +1,9 @@
 // Header.js
 import React from "react";
 import { AppBar, Toolbar, Typography,IconButton } from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
 import Profile from "./Profile";
 import Slider from "./Slider";
-import MenuIcon from "@material-ui/icons/Menu";
 
 const Header = ({ isOpened, setIsOpened, classes }) => {
   const handleMenuIconClick = () => {
@@ -33,3 +33,4 @@ const Header = ({ isOpened, setIsOpened, classes }) => {
 };
 
 export default Header;
+ 

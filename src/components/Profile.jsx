@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import { Avatar, Button, makeStyles } from "@material-ui/core";
+import { Avatar, makeStyles } from "@material-ui/core";
 import Popover from "@material-ui/core/Popover";
+import Cookies from "js-cookie";
+import { logout } from "../redux/Reducer";
 import IconButton from "@material-ui/core/IconButton";
 import MenuItem from "@material-ui/core/MenuItem";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
 const useStyles = makeStyles((theme) => ({
   profileContainer: {
     display: "flex",
@@ -21,21 +24,29 @@ const useStyles = makeStyles((theme) => ({
 
 const Profile = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
   const classes = useStyles();
-  const login = useSelector((state) => state.mySlice.login.Profile);
+  //const login = useSelector((state) => state.mySlice.login.Profile);
   const isLoggedIn = useSelector((state) => state.mySlice.isLoggedIn);
+
   const handleIconHover = (event) => {
     setAnchorEl(event.currentTarget);
   };
-console.log(login,"login")
+
   const handleClosePopover = () => {
     setAnchorEl(null);
   };
 
+  const handleLogout = () => {
+    Cookies.remove("token");
+    dispatch(logout());
+    navigate("/");
+  };
+
   return (
     <div className={classes.profileContainer}>
-      {isLoggedIn  ? (
+      {isLoggedIn && (
         <>
           <IconButton
             aria-label="more"
@@ -63,20 +74,12 @@ console.log(login,"login")
               horizontal: "right",
             }}
           >
-            <MenuItem onClick={()=>navigate("/changepass")}>Change password </MenuItem>
-            <MenuItem>Logout</MenuItem>
+            <MenuItem onClick={() => navigate("/changepass")}>
+              Change password{" "}
+            </MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Popover>
         </>
-      ) : (
-        
-          <Button
-            variant="contained"
-            color="default"
-            onClick={() => navigate("/login")}
-          >
-            Login
-          </Button>
-        
       )}
     </div>
   );

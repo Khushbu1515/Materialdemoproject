@@ -1,19 +1,24 @@
 // App.js
 
 import React from "react";
-import {  Routes, Route } from "react-router-dom";
-import Home from "./components/Home";
-import Login from "./authentication/Login";
-import Signup from "./authentication/Signup";
-import Changepass from "./authentication/Changepass";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Login from "./pages/auth/Login";
+import Signup from "./pages/auth/Signup";
+import Changepass from "./pages/auth/Changepass";
+import Students from "./pages/Students";
+import Layout from "./layout/Layout";
 
 const App = () => {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/changepass" element={<Changepass/>} />
+      <Route path="/" element={<Layout />}>
+        <Route path="/home" element={<Home />} />
+        <Route path="/changepass" element={<Changepass />} />
+        <Route path="/students" element={<Students />} />
+      </Route>
     </Routes>
   );
 };
