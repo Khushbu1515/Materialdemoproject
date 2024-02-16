@@ -11,11 +11,9 @@ const useStyles = makeStyles(styles);
 const Layout = () => {
   const classes = useStyles();
   const [isOpened, setIsOpened] = useState(false);
-
   const isLoggedIn = useSelector((state) => state.mySlice.isLoggedIn);
-
   const navigate = useNavigate();
- console.log(isLoggedIn,"isLoggedIn")
+ 
   useEffect(() => {
     if (!isLoggedIn) {
       navigate("/login", { replace: true });
@@ -25,8 +23,7 @@ const Layout = () => {
   return (
     <div className={classes.root}>
       <Header isOpened={isOpened} setIsOpened={setIsOpened} classes={classes} />
-      <Outlet />
-     
+      <Outlet />     
       <Footer classes={classes} />
     </div>
   );

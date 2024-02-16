@@ -1,6 +1,12 @@
 import * as changepass from "./changepass.service";
 import * as createform from "./createform.service";
 import * as getdata from "./getdata.service";
+import * as deletedata from "./delete.service";
+import * as editdata from "./edit.service";
+import * as viewdata from "./view.service";
 export { changepass };
 export { createform };
 export { getdata };
+export { deletedata };
+export { editdata };
+export { viewdata };

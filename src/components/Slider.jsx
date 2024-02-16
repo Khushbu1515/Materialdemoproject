@@ -8,6 +8,7 @@ import {
   ListItemText,
   IconButton,
   Avatar,
+  
 } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
 
@@ -25,6 +26,7 @@ const Slider = ({ isOpened, setIsOpened, classes }) => {
         <IconButton onClick={handleDrawerClose}>
           <CloseIcon />
         </IconButton>
+      
         <ListItem button>
           <IconButton
             aria-label="more"
